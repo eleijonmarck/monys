@@ -1,5 +1,7 @@
 import React from 'react';
 import logo from './logo.svg';
+import InterestRate from './InterestRate/InterestRate.js';
+import Login from './Login/Login.js';
 import './App.css';
 
 function App() {
@@ -18,7 +20,10 @@ function App() {
         >
           Learn React
         </a>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap" />
       </header>
+      <Login></Login>
+      <InterestRate></InterestRate>
     </div>
   );
 }
