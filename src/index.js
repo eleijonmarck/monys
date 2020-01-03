@@ -9,9 +9,9 @@ import {
 } from 'react-router-dom'
 import './index.css';
 import App from './App';
-import Login from './Login/Login';
-import Scenario from './Scenario/Scenario';
-import NotFound from './NotFound/NotFound';
+import Login from './Routes/Login/Login';
+import ScenarioRoute from './Routes/Scenario';
+import NotFound from './Routes/NotFound/NotFound';
 import * as serviceWorker from './serviceWorker';
 
 const routing = (
@@ -31,7 +31,7 @@ const routing = (
             <Switch>
                 <Route exact path="/" component={App} />
                 <Route path="/login" component={Login} />
-                <Route path="/scenario" component={Scenario} />
+                <Route path="/scenario" component={ScenarioRoute} />
                 <Route component={NotFound} />
             </Switch>
         </div>

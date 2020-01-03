@@ -1,24 +1,21 @@
-import React, { useState } from 'react';
+import React from 'react'
 import TextField from '@material-ui/core/TextField';
 import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
 import Card from '@material-ui/core/Card';
 import CardContent from '@material-ui/core/CardContent';
 import CardActions from '@material-ui/core/CardActions';
 import Button from '@material-ui/core/Button';
-import CardHeader from '@material-ui/core/CardHeader';
-
-import Scenarios from './Scenarios'
 
 const useStyles = makeStyles((theme) =>
     createStyles({
         container: {
             display: 'flex',
             flexWrap: 'wrap',
-            width: 400,
+            width: 200,
             margin: `${theme.spacing(0)} auto`
         },
-        loginBtn: {
-            marginTop: theme.spacing(2),
+        scenarioBtn: {
+            marginTop: theme.spacing(0),
             flexGrow: 1
         },
         header: {
@@ -27,19 +24,19 @@ const useStyles = makeStyles((theme) =>
             color: '#fff'
         },
         card: {
-            marginTop: theme.spacing(10)
+            marginTop: theme.spacing(0)
         }
 
     }),
 );
 
-const CreateScenario = () => {
+const CreateScenario = (props) => {
 
     const classes = useStyles()
-    const [scenarioName, setScenarioName] = useState("")
-    const [isButtonDisabled, setIsButtonDisabled] = useState("")
+    const [scenarioName, setScenarioName] = React.useState("")
+    const [isButtonDisabled, setIsButtonDisabled] = React.useState("")
 
-    const [error, setError] = useState(false)
+    const [error, setError] = React.useState(false)
 
     const handleKeyPress = (e) => {
         if (e.keyCode === 13 || e.which === 13) {
@@ -47,9 +44,19 @@ const CreateScenario = () => {
         }
     }
 
+    React.useEffect(() => {
+        if (scenarioName.trim()) {
+            setIsButtonDisabled(false)
+        } else {
+            setIsButtonDisabled(true)
+        }
+    }, [scenarioName])
+
     const handleNewScenario = (scenarioName) => {
-        alert(scenarioName)
-        // create new Scenario
+        const newScen = {
+            'title': scenarioName
+        }
+        props.addScenario(newScen)
     }
 
     return (
@@ -76,7 +83,7 @@ const CreateScenario = () => {
                             variant="contained"
                             size="large"
                             color="secondary"
-                            className={classes.scenarioButton}
+                            className={classes.scenarioBtn}
                             onClick={() => handleNewScenario(scenarioName)}
                             disabled={isButtonDisabled}>
                             Scenario
@@ -88,12 +95,4 @@ const CreateScenario = () => {
     )
 }
 
-const Scenario = () => {
-    return (
-        <React.Fragment>
-            <Scenarios></Scenarios>
-            <CreateScenario></CreateScenario>
-        </React.Fragment>
-    )
-}
-export default Scenario
+export default CreateScenario
