@@ -49,9 +49,62 @@ const useStyles = makeStyles((theme) =>
     }),
 );
 
+const defaultValues = {
+    initialSavings: 100.0,
+    interestRate: 1.08,
+    yearsAhead: 10.0,
+}
+
 const Dashboard = (props) => {
     const classes = useStyles();
     const fixedHeightPaper = clsx(classes.paper, classes.fixedHeight);
+
+    function growth(initialSavings, interestRate, yearsAhead) {
+        let y = []
+        let amount = initialSavings
+        y.push(parseInt(amount))
+        for (let step = 0; step < yearsAhead; step++) {
+            let nextY = amount * interestRate
+            // smooth values out
+            nextY = Math.round(nextY * 100) / 100
+            y.push(nextY)
+            amount = nextY
+        }
+        return y
+    }
+    function createLineData(y) {
+        let lineData = {
+            table: []
+        }
+        for (let step = 0; step < y.length; step++) {
+            lineData.table.push({
+                'x': step,
+                'y': y[step]
+            })
+        }
+        return lineData
+    }
+
+    const [values, setValues] = React.useState({
+        initialSavings: defaultValues.initialSavings,
+        interestRate: defaultValues.interestRate,
+        yearsAhead: defaultValues.yearsAhead,
+        lineData: createLineData(growth(defaultValues.initialSavings, defaultValues.interestRate, defaultValues.yearsAhead)),
+    });
+
+    const [lineData, setLineData] = React.useState(
+        createLineData(growth(defaultValues.initialSavings, defaultValues.interestRate, defaultValues.yearsAhead))
+    )
+
+    const handleChange = name => event => {
+        setValues({
+            ...values,
+            [name]: parseFloat(event.target.value),
+        });
+        setLineData(
+            createLineData(growth(values.initialSavings, values.interestRate, values.yearsAhead))
+        )
+    };
 
     return (
         <main
@@ -66,7 +119,7 @@ const Dashboard = (props) => {
                     {/* Chart */}
                     <Grid item xs={12} md={8} lg={9}>
                         <Paper className={fixedHeightPaper}>
-                            <LineChart />
+                            <LineChart lineData={lineData} />
                         </Paper>
                     </Grid>
                     {/* Recent Deposits */}
@@ -82,7 +135,14 @@ const Dashboard = (props) => {
                         </Paper>
                     </Grid>
                 </Grid>
-                <MonthlySavings></MonthlySavings>
+                <MonthlySavings
+                    initialSavings={values.initialSavings}
+                    interestRate={values.interestRate}
+                    yearsAhead={values.yearsAhead}
+                    handleChange={handleChange}
+                >
+
+                </MonthlySavings>
             </Container>
         </main>
     )

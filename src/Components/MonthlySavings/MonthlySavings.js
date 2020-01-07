@@ -30,7 +30,7 @@ function NumberFormatCustom(props) {
             }}
             thousandSeparator
             isNumericString
-            suffix=" %"
+        // suffix=" %"
         />
     );
 }
@@ -40,20 +40,8 @@ NumberFormatCustom.propTypes = {
     onChange: PropTypes.func.isRequired,
 };
 
-export default function FormPropsTextFields() {
+export default function FormPropsTextFields(props) {
     const classes = useStyles();
-
-    const [values, setValues] = React.useState({
-        textmask: '(1  )    -    ',
-        numberformat: '8',
-    });
-
-    const handleChange = name => event => {
-        setValues({
-            ...values,
-            [name]: event.target.value,
-        });
-    };
 
     return (
         <form className={classes.root} noValidate autoComplete="off">
@@ -61,8 +49,10 @@ export default function FormPropsTextFields() {
                 <TextField
                     required
                     id="standard-number"
-                    label="Required"
+                    label="Initial Savings"
                     type='number'
+                    value={props.initialSavings}
+                    onChange={props.handleChange('initialSavings')}
                     placeholder='initialSavings'
                     InputLabelProps={{
                         shrink: true,
@@ -70,21 +60,27 @@ export default function FormPropsTextFields() {
                 />
                 <TextField
                     required
-                    id="standard-helperText"
-                    label="Interest Rate"
-                    defaultValue="8"
-                    type='number'
-                    helperText="Some important text"
-                />
-                <TextField
-                    label="Interest Rate"
-                    value={values.numberformat}
-                    onChange={handleChange('numberformat')}
+                    label="Interest Rate per Year"
+                    value={props.interestRate}
+                    onChange={props.handleChange('interestRate')}
                     id="formatted-numberformat-input"
+                    helperText="Some important text"
                     InputProps={{
                         inputComponent: NumberFormatCustom,
                     }}
                 />
+                <TextField
+                    required
+                    label="Years Ahead"
+                    value={props.yearsAhead}
+                    onChange={props.handleChange('yearsAhead')}
+                    id="formatted-numberformat-input"
+                    helperText="Some important text"
+                    InputProps={{
+                        shrink: 'true',
+                    }}
+                />
+
             </div>
         </form>
     );

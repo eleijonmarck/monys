@@ -4,8 +4,8 @@ import MenuDrawer from './Containers/MenuDrawer/MenuDrawer'
 
 // routing
 import { BrowserRouter, Route, Switch } from "react-router-dom";
-import ScenarioRoute from './Routes/Scenario'
 import Login from './Routes/Login/Login'
+import Scenario from './Routes/Scenario/Scenario'
 import NotFound from './Routes/NotFound/NotFound'
 
 const App = () => {
@@ -30,7 +30,7 @@ const App = () => {
                 </MenuDrawer>
                 <Switch>
                     <Route exactly path="/login" component={Login} />
-                    <Route exactly path="/scenario" component={() => <ScenarioRoute open={open} />} />
+                    <Route exactly path="/scenario" component={() => <Scenario open={open} />} />
                     <Route component={NotFound} />
                 </Switch>
             </div>

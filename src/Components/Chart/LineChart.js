@@ -89,22 +89,6 @@ const barData = {
     ],
 }
 
-const lineData = {
-    table: [
-        { "x": 1, "y": 28 }, { "x": 2, "y": 55 },
-        { "x": 3, "y": 43 }, { "x": 4, "y": 91 },
-        { "x": 5, "y": 81 }, { "x": 6, "y": 53 },
-        { "x": 7, "y": 19 }, { "x": 8, "y": 87 },
-        { "x": 9, "y": 52 }, { "x": 10, "y": 48 },
-        { "x": 11, "y": 24 }, { "x": 12, "y": 49 },
-        { "x": 13, "y": 87 }, { "x": 14, "y": 66 },
-        { "x": 15, "y": 17 }, { "x": 16, "y": 27 },
-        { "x": 17, "y": 68 }, { "x": 18, "y": 16 },
-        { "x": 19, "y": 49 }, { "x": 20, "y": 16 }
-    ]
-};
-
-
 const lineSpec = {
     "$schema": "https://vega.github.io/schema/vega/v5.json",
     "width": 500,
@@ -132,23 +116,7 @@ const lineSpec = {
         }
     ],
 
-    "data": [
-        {
-            "name": "table",
-            "values": [
-                { "x": 0, "y": 28, "c": 0 }, { "x": 0, "y": 20, "c": 1 },
-                { "x": 1, "y": 43, "c": 0 }, { "x": 1, "y": 35, "c": 1 },
-                { "x": 2, "y": 81, "c": 0 }, { "x": 2, "y": 10, "c": 1 },
-                { "x": 3, "y": 19, "c": 0 }, { "x": 3, "y": 15, "c": 1 },
-                { "x": 4, "y": 52, "c": 0 }, { "x": 4, "y": 48, "c": 1 },
-                { "x": 5, "y": 24, "c": 0 }, { "x": 5, "y": 28, "c": 1 },
-                { "x": 6, "y": 87, "c": 0 }, { "x": 6, "y": 66, "c": 1 },
-                { "x": 7, "y": 17, "c": 0 }, { "x": 7, "y": 27, "c": 1 },
-                { "x": 8, "y": 68, "c": 0 }, { "x": 8, "y": 16, "c": 1 },
-                { "x": 9, "y": 49, "c": 0 }, { "x": 9, "y": 25, "c": 1 }
-            ]
-        }
-    ],
+    "data": [{ "name": "table" }],
 
     "scales": [
         {
@@ -212,61 +180,6 @@ const lineSpec = {
         }
     ]
 }
-// const lineSpec = {
-//     "width": 600,
-//     "height": 250,
-//     "padding": { "top": 10, "left": 30, "bottom": 30, "right": 10 },
-//     "data": [{ "name": "table" }],
-//     'signals': [
-//         {
-//             'name': 'hover', 'init': null,
-//             'streams': [
-//                 { 'type': '@bar:mouseover', 'expr': 'datum' },
-//                 { 'type': '@bar:mouseout', 'expr': 'null' }
-//             ]
-//         }
-//     ],
-//     "scales": [
-//         {
-//             "name": "x",
-//             "type": "ordinal",
-//             "range": "width",
-//             "domain": { "data": "table", "field": "x" }
-//         },
-//         {
-//             "name": "y",
-//             "type": "linear",
-//             "range": "height",
-//             "domain": { "data": "table", "field": "y" },
-//             "nice": true
-//         }
-//     ],
-//     "axes": [
-//         { "type": "x", "scale": "x" },
-//         { "type": "y", "scale": "y" }
-//     ],
-//     "marks": [
-//         {
-//             "type": "rect",
-//             "name": "bar",
-//             "from": { "data": "table" },
-//             "properties": {
-//                 "enter": {
-//                     "x": { "scale": "x", "field": "x" },
-//                     "width": { "scale": "x", "band": true, "offset": -1 },
-//                     "y": { "scale": "y", "field": "y" },
-//                     "y2": { "scale": "y", "value": 0 }
-//                 },
-//                 "update": {
-//                     "fill": { "value": "steelblue" }
-//                 },
-//                 "hover": {
-//                     "fill": { "value": "green" }
-//                 }
-//             }
-//         }
-//     ]
-// };
 
 function handleHover(...args) {
     console.log(args);
@@ -274,12 +187,12 @@ function handleHover(...args) {
 
 const signalListeners = { hover: handleHover };
 
-export default function Chart() {
+export default function Chart(props) {
     return (
         <React.Fragment>
             <Container>
 
-                <Vega spec={lineSpec} data={lineData} signalListeners={signalListeners} />
+                <Vega spec={lineSpec} data={props.lineData} signalListeners={signalListeners} />
                 {/* <Vega spec={barSpec} data={barData} signalListeners={signalListeners} /> */}
             </Container>
         </React.Fragment>
