@@ -5,6 +5,9 @@ import CssBaseline from '@material-ui/core/CssBaseline';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import IconButton from '@material-ui/core/IconButton';
+import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
+import ChevronRightIcon from '@material-ui/icons/ChevronRight';
+
 import Badge from '@material-ui/core/Badge';
 import MenuIcon from '@material-ui/icons/Menu';
 import NotificationsIcon from '@material-ui/icons/Notifications';
@@ -14,7 +17,6 @@ import Drawer from '@material-ui/core/Drawer';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import Divider from '@material-ui/core/Divider';
-import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 
 import { Link } from 'react-router-dom'
 
@@ -62,53 +64,28 @@ const useStyles = makeStyles(theme => ({
         ...theme.mixins.toolbar,
         justifyContent: 'flex-end',
     },
-    content: {
-        flexGrow: 1,
-        padding: theme.spacing(3),
-        transition: theme.transitions.create('margin', {
-            easing: theme.transitions.easing.sharp,
-            duration: theme.transitions.duration.leavingScreen,
-        }),
-        marginLeft: -drawerWidth,
-    },
-    contentShift: {
-        transition: theme.transitions.create('margin', {
-            easing: theme.transitions.easing.easeOut,
-            duration: theme.transitions.duration.enteringScreen,
-        }),
-        marginLeft: 0,
-    },
 }));
 
-const MenuDrawer = () => {
+const MenuDrawer = (props) => {
     const classes = useStyles()
     const theme = useTheme();
 
-
-    const [open, setOpen] = React.useState(true);
-    const handleDrawerOpen = () => {
-        setOpen(true);
-    };
-    const handleDrawerClose = () => {
-        setOpen(false);
-    };
-
     return (
-        <div className={classes.drawer}>
+        <div className={classes.root}>
             <CssBaseline />
             <AppBar
                 position="fixed"
                 className={clsx(classes.appBar, {
-                    [classes.appBarShift]: open,
+                    [classes.appBarShift]: props.open,
                 })}
             >
-                <Toolbar className={classes.toolbar}>
+                <Toolbar>
                     <IconButton
-                        edge="start"
                         color="inherit"
                         aria-label="open drawer"
-                        onClick={handleDrawerOpen}
-                        className={clsx(classes.menuButton, open && classes.menuButtonHidden)}
+                        onClick={props.handleDrawerOpen}
+                        edge="start"
+                        className={clsx(classes.menuButton, props.open && classes.hide)}
                     >
                         <MenuIcon />
                     </IconButton>
@@ -117,17 +94,17 @@ const MenuDrawer = () => {
                         Dashboard
 
                     </Typography>
-                    <List className={classes.toolbarIcon}>
+                    <List className={classes.drawerHeader}>
 
                         <ListItem>
-                            <Link activeClassName="active" to="/">Home</Link>
+                            <Link className="active" to="/">Home</Link>
                         </ListItem>
                         <ListItem>
-                            <Link activeClassName="active" to="/login">Login</Link>
+                            <Link className="active" to="/login">Login</Link>
                         </ListItem>
 
                         <ListItem>
-                            <Link activeClassName="active" to="/scenario">Scenario</Link>
+                            <Link className="active" to="/scenario">Scenario</Link>
                         </ListItem>
                     </List>
 
@@ -143,14 +120,15 @@ const MenuDrawer = () => {
                 className={classes.drawer}
                 variant="persistent"
                 anchor="left"
-                open={open}
+                open={props.open}
                 classes={{
                     paper: classes.drawerPaper,
                 }}
             >
-                <div className={classes.toolbarIcon}>
-                    <IconButton onClick={handleDrawerClose}>
-                        <ChevronLeftIcon />
+
+                <div className={classes.drawerHeader}>
+                    <IconButton onClick={props.handleDrawerClose}>
+                        {theme.direction === 'ltr' ? <ChevronLeftIcon /> : <ChevronRightIcon />}
                     </IconButton>
                 </div>
                 <Divider />
@@ -158,13 +136,6 @@ const MenuDrawer = () => {
                 <Divider />
                 <List>{secondaryListItems}</List>
             </Drawer>
-            <main
-                className={clsx(classes.content, {
-                    [classes.contentShift]: open,
-                })}
-            >
-                hej
-            </main>
         </div >
     )
 }

@@ -10,8 +10,6 @@ const barSpec = {
 
     "data": [{ "name": "table" }],
 
-
-
     signals: [
         {
             name: 'tooltip',

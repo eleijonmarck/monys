@@ -2,10 +2,9 @@ import React from 'react';
 
 import Scenario from './Scenario'
 
-const ScenarioRoute = () => {
-
+const ScenarioRoute = (props) => {
     return (
-        <Scenario></Scenario>
+        <Scenario open={props.open}></Scenario>
     )
 }
 export default ScenarioRoute

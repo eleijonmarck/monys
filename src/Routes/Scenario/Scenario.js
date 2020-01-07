@@ -1,9 +1,9 @@
 import React from 'react'
 
 import Dashboard from './../../Containers/Dashboard/Dashboard';
-const Scenario = () => {
+const Scenario = (props) => {
     return (
-        <Dashboard></Dashboard>
+        <Dashboard open={props.open}></Dashboard>
     )
 }
 
