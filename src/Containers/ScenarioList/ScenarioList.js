@@ -1,7 +1,10 @@
 import React from 'react';
 import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
 import List from '@material-ui/core/List';
+import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItem from '@material-ui/core/ListItem';
+import ListItemText from '@material-ui/core/ListItemText';
+import TimelineIcon from '@material-ui/icons/Timeline';
 import CreateScenario from './CreateScenario'
 
 const useStyles = makeStyles(theme => ({
@@ -9,6 +12,9 @@ const useStyles = makeStyles(theme => ({
         width: '100%',
         maxWidth: 200,
         backgroundColor: theme.palette.background.paper,
+        display: 'flex',
+        'flex-direction': 'column',
+        margin: `${theme.spacing(0)} auto`,
     },
 }));
 
@@ -44,7 +50,14 @@ const ScenarioList = () => {
                             selected={selectedIndex === id}
                             onClick={event => handleListItemClick(event, id)}
                             key={idx}
-                            id={id}>{val.title}
+                            id={id}
+                        >
+
+                            <ListItemIcon>
+                                <TimelineIcon />
+                            </ListItemIcon>
+                            <ListItemText primary={val.title} />
+
                         </ListItem>
                     )
                 })}

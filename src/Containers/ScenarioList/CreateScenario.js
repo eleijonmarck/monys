@@ -6,13 +6,15 @@ import CardContent from '@material-ui/core/CardContent';
 import CardActions from '@material-ui/core/CardActions';
 import Button from '@material-ui/core/Button';
 
+// great introduction to handling lists in React https://www.robinwieruch.de/react-preventdefault
+
 const useStyles = makeStyles((theme) =>
     createStyles({
         container: {
             display: 'flex',
             flexWrap: 'wrap',
             width: 200,
-            margin: `${theme.spacing(0)} auto`
+            margin: `${theme.spacing(1)} auto`
         },
         scenarioBtn: {
             marginTop: theme.spacing(0),
@@ -41,6 +43,8 @@ const CreateScenario = (props) => {
     const handleKeyPress = (e) => {
         if (e.keyCode === 13 || e.which === 13) {
             isButtonDisabled || handleNewScenario(e.target.value)
+            e.preventDefault()
+            e.target.value = ''
         }
     }
 

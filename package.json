@@ -6,13 +6,16 @@
     "@material-ui/core": "^4.8.1",
     "@material-ui/icons": "^4.5.1",
     "rc-slider": "^8.7.1",
-    "react": "^16.8.6",
+    "react": "^16.12.0",
     "react-dom": "^16.8.6",
     "react-hook-form": "^4.2.2",
     "react-router-dom": "^5.1.2",
     "react-scripts": "3.0.1",
+    "react-vega": "^7.1.1",
     "recharts": "^2.0.0-beta.1",
-    "typeface-roboto": "^0.0.75"
+    "typeface-roboto": "^0.0.75",
+    "vega": "^5.9.0",
+    "vega-lite": "^4.0.2"
   },
   "scripts": {
     "start": "react-scripts start",
