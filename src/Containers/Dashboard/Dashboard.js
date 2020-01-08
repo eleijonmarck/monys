@@ -51,7 +51,7 @@ const useStyles = makeStyles((theme) =>
 
 const defaultValues = {
     initialSavings: 100.0,
-    interestRate: 1.08,
+    yieldRate: 8,
     yearsAhead: 10.0,
 }
 
@@ -59,12 +59,14 @@ const Dashboard = (props) => {
     const classes = useStyles();
     const fixedHeightPaper = clsx(classes.paper, classes.fixedHeight);
 
-    function growth(initialSavings, interestRate, yearsAhead) {
+    function growth(initialSavings, yieldRate, yearsAhead) {
         let y = []
-        let amount = initialSavings
-        y.push(parseInt(amount))
+        var amount = parseFloat(initialSavings) || 0;
+        yieldRate = parseFloat(yieldRate / 100 + 1)
+        y.push(parseFloat(amount))
+
         for (let step = 0; step < yearsAhead; step++) {
-            let nextY = amount * interestRate
+            let nextY = amount * yieldRate
             // smooth values out
             nextY = Math.round(nextY * 100) / 100
             y.push(nextY)
@@ -79,7 +81,8 @@ const Dashboard = (props) => {
         for (let step = 0; step < y.length; step++) {
             lineData.table.push({
                 'x': step,
-                'y': y[step]
+                'y': y[step],
+                'c': 0
             })
         }
         return lineData
@@ -87,24 +90,35 @@ const Dashboard = (props) => {
 
     const [values, setValues] = React.useState({
         initialSavings: defaultValues.initialSavings,
-        interestRate: defaultValues.interestRate,
+        yieldRate: defaultValues.yieldRate,
         yearsAhead: defaultValues.yearsAhead,
-        lineData: createLineData(growth(defaultValues.initialSavings, defaultValues.interestRate, defaultValues.yearsAhead)),
     });
 
     const [lineData, setLineData] = React.useState(
-        createLineData(growth(defaultValues.initialSavings, defaultValues.interestRate, defaultValues.yearsAhead))
+        createLineData(growth(defaultValues.initialSavings, defaultValues.yieldRate, defaultValues.yearsAhead))
     )
 
     const handleChange = name => event => {
         setValues({
             ...values,
-            [name]: parseFloat(event.target.value),
+            [name]: (parseFloat(event.target.value) || ''),
         });
-        setLineData(
-            createLineData(growth(values.initialSavings, values.interestRate, values.yearsAhead))
-        )
     };
+
+    React.useEffect(() => {
+        newLineData()
+    }, [values.initialSavings, values.yieldRate, values.yearsAhead])
+
+    const newLineData = () => {
+        // handle if bad data.
+
+        // display something in chart that says bad input data
+        setLineData(
+            createLineData(
+                growth(values.initialSavings, values.yieldRate, values.yearsAhead)
+            )
+        )
+    }
 
     return (
         <main
@@ -137,11 +151,10 @@ const Dashboard = (props) => {
                 </Grid>
                 <MonthlySavings
                     initialSavings={values.initialSavings}
-                    interestRate={values.interestRate}
+                    yieldRate={values.yieldRate}
                     yearsAhead={values.yearsAhead}
                     handleChange={handleChange}
                 >
-
                 </MonthlySavings>
             </Container>
         </main>
