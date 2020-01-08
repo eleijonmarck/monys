@@ -107,11 +107,21 @@ export default function Chart(props) {
         "height": 200,
         "padding": 5,
 
+        "signals": [
+            {
+                "name": "hover",
+                "value": null,
+                "on": [
+                    { "events": "mouseover", "update": "datum" },
+                    { "events": "mouseout", "update": "null" }
+                ]
+            }
+        ],
         "data": [
             {
                 "name": "table",
                 "values": []
-            }
+            },
         ],
 
         "scales": [
@@ -145,6 +155,7 @@ export default function Chart(props) {
         "marks": [
             {
                 "type": "group",
+                "width": 30,
                 "from": {
                     "facet": {
                         "name": "series",
@@ -156,24 +167,45 @@ export default function Chart(props) {
                     {
                         "type": "line",
                         "from": { "data": "series" },
+                        // "width": 30,
+                        "height": 30,
                         "encode": {
                             "enter": {
                                 "x": { "scale": "x", "field": "x" },
                                 "y": { "scale": "y", "field": "y" },
                                 "stroke": { "scale": "color", "field": "c" },
-                                "strokeWidth": { "value": 3 },
-                                "tooltip": { "field": "x", "field": "y" }
+                                "strokeWidth": { "value": 2 },
+                                // "tooltip": { "field": "x", "field": "y" }
+                                "tooltip": { "signal": "datum" }
                             },
 
                         },
                         "update": {
-                            "interpolate": { "signal": "interpolate" },
-                            "fillOpacity": { "value": 1 }
+                            "fillOpacity": { "value": 1 },
+                            "tooltip": { "signal": "datum" }
+
                         },
                         "hover": {
-                            "fillOpacity": { "value": 0.5 }
+                            "fillOpacity": { "value": 6.5 },
+                            "tooltip": { "signal": "datum" }
                         }
-                    }
+                    },
+                    //     {
+                    //         "from": { "data": "highlightedPoint" },
+                    //         "type": "symbol",
+                    //         "interactive": false,
+                    //         "encode": {
+                    //             "update": {
+                    //                 "x": { "scale": "xscale", "field": "match" },
+                    //                 "y": { "scale": "yscale", "field": "y" },
+                    //                 "stroke": { "value": "green" },
+                    //                 "strokeWidth": { "value": 4 },
+                    //                 "fill": { "value": "white" },
+                    //                 "size": { "value": 150 },
+                    //                 "strokeOpacity": { "value": 0.3 }
+                    //             }
+                    //         }
+                    //     }
                 ]
             }
         ]

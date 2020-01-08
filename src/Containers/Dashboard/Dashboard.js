@@ -6,7 +6,7 @@ import Grid from '@material-ui/core/Grid';
 import Paper from '@material-ui/core/Paper';
 import LineChart from '../../Components/Chart/LineChart';
 // import Deposits from './../Deposits/Deposits';
-// import Orders from './../Orders/Orders';
+import Orders from './../Orders/Orders';
 import MonthlySavings from '../../Components/MonthlySavings/MonthlySavings'
 
 const drawerWidth = 240;
@@ -140,22 +140,26 @@ const Dashboard = (props) => {
                     <Grid item xs={12} md={4} lg={3}>
                         <Paper className={fixedHeightPaper}>
                             {/* <Deposits /> */}
+                            <MonthlySavings
+                                initialSavings={values.initialSavings}
+                                yieldRate={values.yieldRate}
+                                yearsAhead={values.yearsAhead}
+                                handleChange={handleChange}
+                            >
+                            </MonthlySavings>
                         </Paper>
                     </Grid>
                     {/* Recent Orders */}
                     <Grid item xs={12}>
                         <Paper className={classes.paper}>
-                            {/* <Orders /> */}
+                            <Orders
+                                lineData={lineData}
+                            >
+                            </Orders>
                         </Paper>
                     </Grid>
                 </Grid>
-                <MonthlySavings
-                    initialSavings={values.initialSavings}
-                    yieldRate={values.yieldRate}
-                    yearsAhead={values.yearsAhead}
-                    handleChange={handleChange}
-                >
-                </MonthlySavings>
+
             </Container>
         </main>
     )

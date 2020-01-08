@@ -31,31 +31,27 @@ const useStyles = makeStyles(theme => ({
     },
 }));
 
-export default function Orders() {
+export default function Orders(props) {
     const classes = useStyles();
     return (
         <React.Fragment>
-            <Title>Recent Orders</Title>
+            <Title>Scenarios</Title>
             <Table size="small">
                 <TableHead>
+                    <TableCell>scenario x</TableCell>
+                    {props.lineData.table.map(row => (
+                        <TableCell>Year {row.x}</TableCell>
+                    ))}
                     <TableRow>
-                        <TableCell>Date</TableCell>
-                        <TableCell>Name</TableCell>
-                        <TableCell>Ship To</TableCell>
-                        <TableCell>Payment Method</TableCell>
-                        <TableCell align="right">Sale Amount</TableCell>
                     </TableRow>
                 </TableHead>
                 <TableBody>
-                    {rows.map(row => (
-                        <TableRow key={row.id}>
-                            <TableCell>{row.date}</TableCell>
-                            <TableCell>{row.name}</TableCell>
-                            <TableCell>{row.shipTo}</TableCell>
-                            <TableCell>{row.paymentMethod}</TableCell>
-                            <TableCell align="right">{row.amount}</TableCell>
-                        </TableRow>
+                    <TableCell>x</TableCell>
+                    {props.lineData.table.map(row => (
+                        <TableCell>{row.y}</TableCell>
                     ))}
+                    <TableRow>
+                    </TableRow>
                 </TableBody>
             </Table>
             <div className={classes.seeMore}>
