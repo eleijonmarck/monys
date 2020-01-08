@@ -2,6 +2,9 @@ import React from 'react';
 import { Vega } from 'react-vega';
 import Container from '@material-ui/core/Container'
 
+import { Handler } from 'vega-tooltip';
+
+
 const barSpec = {
     $schema: 'https://vega.github.io/schema/vega/v5.json',
     width: 400,
@@ -104,27 +107,6 @@ export default function Chart(props) {
         "height": 200,
         "padding": 5,
 
-        "signals": [
-            {
-                "name": "interpolate",
-                "value": "linear",
-                "bind": {
-                    "input": "select",
-                    "options": [
-                        "basis",
-                        "cardinal",
-                        "catmull-rom",
-                        "linear",
-                        "monotone",
-                        "natural",
-                        "step",
-                        "step-after",
-                        "step-before"
-                    ]
-                }
-            }
-        ],
-
         "data": [
             {
                 "name": "table",
@@ -179,15 +161,17 @@ export default function Chart(props) {
                                 "x": { "scale": "x", "field": "x" },
                                 "y": { "scale": "y", "field": "y" },
                                 "stroke": { "scale": "color", "field": "c" },
-                                "strokeWidth": { "value": 2 }
+                                "strokeWidth": { "value": 3 },
+                                "tooltip": { "field": "x", "field": "y" }
                             },
-                            "update": {
-                                "interpolate": { "signal": "interpolate" },
-                                "fillOpacity": { "value": 1 }
-                            },
-                            "hover": {
-                                "fillOpacity": { "value": 0.5 }
-                            }
+
+                        },
+                        "update": {
+                            "interpolate": { "signal": "interpolate" },
+                            "fillOpacity": { "value": 1 }
+                        },
+                        "hover": {
+                            "fillOpacity": { "value": 0.5 }
                         }
                     }
                 ]
@@ -198,7 +182,7 @@ export default function Chart(props) {
     const [spec, setSpec] = React.useState(lineSpec)
 
     React.useEffect(() => {
-        let data = { "name": "table", "values": props.lineData.table }
+        let data = [{ "name": "table", "values": props.lineData.table }]
         setSpec(() => (
             {
                 ...spec,
@@ -210,8 +194,8 @@ export default function Chart(props) {
     return (
         <React.Fragment>
             <Container>
-
-                <Vega spec={spec} signalListeners={signalListeners} />
+                <Vega spec={spec} signalListeners={signalListeners} tooltip={new Handler().call} />
+                {/* <Vega spec={spec} /> */}
             </Container>
         </React.Fragment>
     )

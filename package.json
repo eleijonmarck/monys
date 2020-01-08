@@ -16,7 +16,8 @@
     "recharts": "^2.0.0-beta.1",
     "typeface-roboto": "^0.0.75",
     "vega": "^5.9.0",
-    "vega-lite": "^4.0.2"
+    "vega-lite": "^4.0.2",
+    "vega-tooltip": "^0.20.0"
   },
   "scripts": {
     "start": "react-scripts start",
