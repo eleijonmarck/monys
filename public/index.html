@@ -24,6 +24,29 @@
 </head>
 
 <body>
+  <!-- The core Firebase JS SDK is always required and must be listed first -->
+  <script src="https://www.gstatic.com/firebasejs/7.6.1/firebase-app.js"></script>
+
+  <!-- TODO: Add SDKs for Firebase products that you want to use
+     https://firebase.google.com/docs/web/setup#available-libraries -->
+  <script src="https://www.gstatic.com/firebasejs/7.6.1/firebase-analytics.js"></script>
+
+  <script>
+    // Your web app's Firebase configuration
+    var firebaseConfig = {
+      apiKey: "AIzaSyDH9Oxrpqpk1m8rY9LcplEzqCHaHfNvaiI",
+      authDomain: "monys-firebase.firebaseapp.com",
+      databaseURL: "https://monys-firebase.firebaseio.com",
+      projectId: "monys-firebase",
+      storageBucket: "monys-firebase.appspot.com",
+      messagingSenderId: "463642696961",
+      appId: "1:463642696961:web:19097b8bd07d3b24e40f00",
+      measurementId: "G-RKCV1G4SJ7"
+    };
+    // Initialize Firebase
+    firebase.initializeApp(firebaseConfig);
+    firebase.analytics();
+  </script>
   <noscript>You need to enable JavaScript to run this app.</noscript>
   <div id="root"></div>
   <!--
@@ -37,5 +60,6 @@
       To create a production bundle, use `npm run build` or `yarn build`.
     -->
 </body>
+
 
 </html>

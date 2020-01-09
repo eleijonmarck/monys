@@ -51,6 +51,17 @@ export default function FinancialParameters(props) {
                 />
                 <TextField
                     required
+                    id="lumpSums"
+                    label="Lump Sum / Year"
+                    value={props.lumpSums}
+                    onChange={props.handleChange('lumpSums')}
+                    helperText="Some important text"
+                    InputProps={{
+                        shrink: 'true',
+                    }}
+                />
+                <TextField
+                    required
                     label="Years Ahead"
                     value={props.yearsAhead}
                     onChange={props.handleChange('yearsAhead')}
@@ -60,6 +71,7 @@ export default function FinancialParameters(props) {
                         shrink: 'true',
                     }}
                 />
+
 
             </div>
         </form>

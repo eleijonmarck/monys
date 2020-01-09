@@ -56,25 +56,30 @@ const useStyles = makeStyles((theme) =>
 
 const defaultValues = {
     initialSavings: 1000,
+    monthlySavings: 25000,
+    lumpSums: 100000,
     yieldRate: 8,
     yearsAhead: 10.0,
-    monthlySavings: 25000,
 }
 
 const Dashboard = (props) => {
     const classes = useStyles();
     const fixedHeightPaper = clsx(classes.paper, classes.fixedHeight);
 
-    function growth(initialSavings, monthlySavings, yieldRate, yearsAhead) {
+    function growth(initialSavings, monthlySavings, lumpSums, yieldRate, yearsAhead) {
         let y = []
         var amount = parseFloat(initialSavings) || 0;
         y.push(parseFloat(amount))
 
         monthlySavings = parseFloat(monthlySavings || 0)
+        lumpSums = parseFloat(lumpSums || 0)
         yieldRate = parseFloat(yieldRate / 100 + 1)
 
         for (let step = 0; step < yearsAhead; step++) {
-            let nextY = (amount + 12.0 * monthlySavings) * yieldRate
+            // currently everything happens yearly
+            // for each year you increase by 12 * monthlySavings
+            // and lumpSum
+            let nextY = (amount + 12.0 * monthlySavings + lumpSums) * yieldRate
             // smooth values out
             nextY = Math.round(nextY * 100) / 100
             y.push(nextY)
@@ -99,6 +104,7 @@ const Dashboard = (props) => {
     const [values, setValues] = React.useState({
         initialSavings: defaultValues.initialSavings,
         monthlySavings: defaultValues.monthlySavings,
+        lumpSums: defaultValues.lumpSums,
         yieldRate: defaultValues.yieldRate,
         yearsAhead: defaultValues.yearsAhead,
         formErrors: {
@@ -152,6 +158,7 @@ const Dashboard = (props) => {
             growth(
                 defaultValues.initialSavings,
                 defaultValues.monthlySavings,
+                defaultValues.lumpSums,
                 defaultValues.yieldRate,
                 defaultValues.yearsAhead,
             )
@@ -167,7 +174,13 @@ const Dashboard = (props) => {
 
     React.useEffect(() => {
         newLineData()
-    }, [values.initialSavings, values.monthlySavings, values.yieldRate, values.yearsAhead])
+    }, [
+        values.initialSavings,
+        values.monthlySavings,
+        values.lumpSums,
+        values.yieldRate,
+        values.yearsAhead,
+    ])
 
     const newLineData = () => {
         // handle if bad data.
@@ -178,6 +191,7 @@ const Dashboard = (props) => {
                 growth(
                     values.initialSavings,
                     values.monthlySavings,
+                    values.lumpSums,
                     values.yieldRate,
                     values.yearsAhead,
                 )
@@ -209,9 +223,10 @@ const Dashboard = (props) => {
 
                             <FinancialParameters
                                 initialSavings={values.initialSavings}
+                                monthlySavings={values.monthlySavings}
+                                lumpSums={values.lumpSums}
                                 yieldRate={values.yieldRate}
                                 yearsAhead={values.yearsAhead}
-                                monthlySavings={values.monthlySavings}
                                 handleChange={handleChange}
                             >
                             </FinancialParameters>

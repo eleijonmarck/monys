@@ -8,17 +8,17 @@ import IconButton from '@material-ui/core/IconButton';
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 import ChevronRightIcon from '@material-ui/icons/ChevronRight';
 
-import Badge from '@material-ui/core/Badge';
 import MenuIcon from '@material-ui/icons/Menu';
-import NotificationsIcon from '@material-ui/icons/Notifications';
 import { Typography } from '@material-ui/core';
 
 import Drawer from '@material-ui/core/Drawer';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
+import MenuList from '@material-ui/core/MenuList';
+import MenuItem from '@material-ui/core/MenuItem';
 import Divider from '@material-ui/core/Divider';
 
-import { Link } from 'react-router-dom'
+import { Link, NavLink } from 'react-router-dom'
 
 
 import ScenarioList from '../ScenarioList/ScenarioList'
@@ -46,6 +46,12 @@ const useStyles = makeStyles(theme => ({
     },
     menuButton: {
         marginRight: theme.spacing(2),
+    },
+    menuBar: {
+        display: 'flex',
+        flexWrap: 'wrap',
+        justifyContent: 'space-around',
+        overflow: 'hidden'
     },
     hide: {
         display: 'none',
@@ -90,29 +96,28 @@ const MenuDrawer = (props) => {
                         <MenuIcon />
                     </IconButton>
 
-                    <Typography component="h1" variant="h6" color="inherit" noWrap className={classes.title}>
-                        Dashboard
 
-                    </Typography>
-                    <List className={classes.drawerHeader}>
+                    <MenuList className={classes.menuBar}>
+                        <MenuItem name="home" component={Link} to={'/'}>
+                            <Typography component="h1" variant="h6" color="inherit" noWrap className={classes.title}
+                            >
+                                Monys
+                                </Typography>
+                        </MenuItem>
+                        <MenuItem name="login" component={Link} to={'/login'}>
 
-                        <ListItem>
-                            <Link className="active" to="/">Home</Link>
-                        </ListItem>
-                        <ListItem>
-                            <Link className="active" to="/login">Login</Link>
-                        </ListItem>
-
-                        <ListItem>
-                            <Link className="active" to="/scenario">Scenario</Link>
-                        </ListItem>
-                    </List>
-
-                    <IconButton color="inherit">
-                        <Badge badgeContent={4} color="secondary">
-                            <NotificationsIcon />
-                        </Badge>
-                    </IconButton>
+                            <Typography component="h1" variant="h6" color="inherit" noWrap className={classes.title}
+                            >
+                                Login
+                                </Typography>
+                        </MenuItem>
+                        <MenuItem name="scenario" component={Link} to={'/scenario'}>
+                            <Typography component="h1" variant="h6" color="inherit" noWrap className={classes.title}
+                            >
+                                Scenario
+                                </Typography>
+                        </MenuItem>
+                    </MenuList>
                 </Toolbar>
 
             </AppBar>
