@@ -33,6 +33,9 @@ const useStyles = makeStyles(theme => ({
 
 export default function Orders(props) {
     const classes = useStyles();
+
+    var nf = new Intl.NumberFormat({ style: 'currency', currency: 'SEK' });
+
     return (
         <React.Fragment>
             <Title>Scenarios</Title>
@@ -40,7 +43,7 @@ export default function Orders(props) {
                 <TableHead>
                     <TableCell>scenario x</TableCell>
                     {props.lineData.table.map(row => (
-                        <TableCell>Year {row.x}</TableCell>
+                        <TableCell>{new Date().getFullYear() + row.x}</TableCell>
                     ))}
                     <TableRow>
                     </TableRow>
@@ -48,12 +51,32 @@ export default function Orders(props) {
                 <TableBody>
                     <TableCell>x</TableCell>
                     {props.lineData.table.map(row => (
-                        <TableCell>{row.y}</TableCell>
+                        <TableCell>{nf.format(Math.trunc(row.y))}</TableCell>
                     ))}
                     <TableRow>
                     </TableRow>
                 </TableBody>
             </Table>
+            <Title>Pinned Scenarios</Title>
+            <Table size="small">
+                <TableHead>
+                    <TableCell>scenario y</TableCell>
+                    {props.lineData.table.map(row => (
+                        <TableCell>Year {row.x}</TableCell>
+                    ))}
+                    <TableRow>
+                    </TableRow>
+                </TableHead>
+                <TableBody>
+                    <TableCell>y</TableCell>
+                    {props.lineData.table.map(row => (
+                        <TableCell>{}</TableCell>
+                    ))}
+                    <TableRow>
+                    </TableRow>
+                </TableBody>
+            </Table>
+
             <div className={classes.seeMore}>
                 <Link color="primary" href="#" onClick={preventDefault}>
                     See more orders

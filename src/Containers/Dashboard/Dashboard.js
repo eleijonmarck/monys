@@ -7,7 +7,7 @@ import Paper from '@material-ui/core/Paper';
 import LineChart from '../../Components/Chart/LineChart';
 // import Deposits from './../Deposits/Deposits';
 import Orders from './../Orders/Orders';
-import MonthlySavings from '../../Components/MonthlySavings/MonthlySavings'
+import FinancialParameters from '../../Components/FinancialParameters/FinancialParameters'
 
 const drawerWidth = 240;
 
@@ -44,29 +44,37 @@ const useStyles = makeStyles((theme) =>
         },
         card: {
             marginTop: theme.spacing(10),
-        }
-
+        },
+        paper: {
+            padding: theme.spacing(2),
+            display: 'flex',
+            overflow: 'auto',
+            flexDirection: 'column',
+        },
     }),
 );
 
 const defaultValues = {
-    initialSavings: 100.0,
+    initialSavings: 1000,
     yieldRate: 8,
     yearsAhead: 10.0,
+    monthlySavings: 25000,
 }
 
 const Dashboard = (props) => {
     const classes = useStyles();
     const fixedHeightPaper = clsx(classes.paper, classes.fixedHeight);
 
-    function growth(initialSavings, yieldRate, yearsAhead) {
+    function growth(initialSavings, monthlySavings, yieldRate, yearsAhead) {
         let y = []
         var amount = parseFloat(initialSavings) || 0;
-        yieldRate = parseFloat(yieldRate / 100 + 1)
         y.push(parseFloat(amount))
 
+        monthlySavings = parseFloat(monthlySavings || 0)
+        yieldRate = parseFloat(yieldRate / 100 + 1)
+
         for (let step = 0; step < yearsAhead; step++) {
-            let nextY = amount * yieldRate
+            let nextY = (amount + 12.0 * monthlySavings) * yieldRate
             // smooth values out
             nextY = Math.round(nextY * 100) / 100
             y.push(nextY)
@@ -90,24 +98,76 @@ const Dashboard = (props) => {
 
     const [values, setValues] = React.useState({
         initialSavings: defaultValues.initialSavings,
+        monthlySavings: defaultValues.monthlySavings,
         yieldRate: defaultValues.yieldRate,
         yearsAhead: defaultValues.yearsAhead,
+        formErrors: {
+            initialSavings: '',
+            yieldRate: ''
+        },
+        initialSavingsValid: false,
+        monthlySavingsValid: false,
+        yieldRateValid: false,
+        formErrorsValid: false,
     });
 
+    function validateField(fieldName, value) {
+        let fieldValidationErrors = values.formErrors;
+        let initialSavingsValid = values.initialSavingsValid;
+        let yieldRateValid = values.yieldRateValid;
+
+        switch (fieldName) {
+            case 'intialSavings':
+                if (Number.isInteger(value) && (value > 0)) {
+                    initialSavingsValid = true
+                }
+
+                fieldValidationErrors.initialSavings = initialSavingsValid ? '' : ' is invalid';
+                break;
+            case 'yieldRate':
+
+                if (Number.isInteger(value) && (value < 100) && (value > 0)) {
+                    yieldRateValid = true
+                }
+                fieldValidationErrors.yieldRateValid = yieldRateValid ? '' : ' is too short';
+                break;
+            default:
+                break;
+        }
+        setValues({
+            formErrors: fieldValidationErrors,
+            initialSavingsValid: initialSavingsValid,
+            yieldRateValid: yieldRateValid
+        }, validateForm)
+    }
+
+    function validateForm() {
+        setValues(
+            { formValid: values.initialSavingsValid && values.yieldRateValid }
+        )
+    }
+
     const [lineData, setLineData] = React.useState(
-        createLineData(growth(defaultValues.initialSavings, defaultValues.yieldRate, defaultValues.yearsAhead))
+        createLineData(
+            growth(
+                defaultValues.initialSavings,
+                defaultValues.monthlySavings,
+                defaultValues.yieldRate,
+                defaultValues.yearsAhead,
+            )
+        )
     )
 
     const handleChange = name => event => {
         setValues({
             ...values,
             [name]: (parseFloat(event.target.value) || ''),
-        });
+        }, () => { validateField(name, event.target.value) });
     };
 
     React.useEffect(() => {
         newLineData()
-    }, [values.initialSavings, values.yieldRate, values.yearsAhead])
+    }, [values.initialSavings, values.monthlySavings, values.yieldRate, values.yearsAhead])
 
     const newLineData = () => {
         // handle if bad data.
@@ -115,7 +175,12 @@ const Dashboard = (props) => {
         // display something in chart that says bad input data
         setLineData(
             createLineData(
-                growth(values.initialSavings, values.yieldRate, values.yearsAhead)
+                growth(
+                    values.initialSavings,
+                    values.monthlySavings,
+                    values.yieldRate,
+                    values.yearsAhead,
+                )
             )
         )
     }
@@ -128,7 +193,7 @@ const Dashboard = (props) => {
         >
             <div className={classes.drawerHeader} />
 
-            <Container maxWidth="lg">
+            <Container maxWidth="lg" className={classes.container}>
                 <Grid container spacing={3}>
                     {/* Chart */}
                     <Grid item xs={12} md={8} lg={9}>
@@ -136,21 +201,26 @@ const Dashboard = (props) => {
                             <LineChart lineData={lineData} />
                         </Paper>
                     </Grid>
+
                     {/* Recent Deposits */}
-                    <Grid item xs={12} md={4} lg={3}>
-                        <Paper className={fixedHeightPaper}>
+                    <Grid item xs={12} lg={3}>
+                        <Paper >
                             {/* <Deposits /> */}
-                            <MonthlySavings
+
+                            <FinancialParameters
                                 initialSavings={values.initialSavings}
                                 yieldRate={values.yieldRate}
                                 yearsAhead={values.yearsAhead}
+                                monthlySavings={values.monthlySavings}
                                 handleChange={handleChange}
                             >
-                            </MonthlySavings>
+                            </FinancialParameters>
+
                         </Paper>
                     </Grid>
+
                     {/* Recent Orders */}
-                    <Grid item xs={12}>
+                    <Grid item xs={12} md={8} lg={9}>
                         <Paper className={classes.paper}>
                             <Orders
                                 lineData={lineData}
@@ -159,9 +229,9 @@ const Dashboard = (props) => {
                         </Paper>
                     </Grid>
                 </Grid>
-
             </Container>
-        </main>
+
+        </main >
     )
 }
 

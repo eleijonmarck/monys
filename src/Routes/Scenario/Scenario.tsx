@@ -2,7 +2,9 @@ import React from 'react'
 
 import Dashboard from './../../Containers/Dashboard/Dashboard'
 
-export default function Scenario(props) {
+interface dashBoardSettings { open: boolean }
+
+export default function Scenario(props: dashBoardSettings): JSX.Element {
     return (
         <Dashboard open={props.open}></Dashboard>
     )

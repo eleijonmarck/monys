@@ -11,7 +11,7 @@ const useStyles = makeStyles(theme => ({
     },
 }));
 
-export default function FormPropsTextFields(props) {
+export default function FinancialParameters(props) {
     const classes = useStyles();
 
     return (
@@ -31,7 +31,18 @@ export default function FormPropsTextFields(props) {
                 />
                 <TextField
                     required
-                    label="Yield Rate per Year"
+                    id="monthlySavings"
+                    label="Monthly Savings"
+                    value={props.monthlySavings}
+                    onChange={props.handleChange('monthlySavings')}
+                    helperText="Some important text"
+                    InputProps={{
+                        shrink: 'true',
+                    }}
+                />
+                <TextField
+                    required
+                    label="Yield Percentage / Year"
                     type='number'
                     value={props.yieldRate}
                     onChange={props.handleChange('yieldRate')}
