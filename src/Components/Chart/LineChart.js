@@ -9,7 +9,6 @@ export default function Chart(props) {
         "width": 500,
         "height": 200,
         "padding": 5,
-
         "signals": [
             {
                 "name": "hover",
@@ -23,10 +22,8 @@ export default function Chart(props) {
         "data": [
             {
                 "name": "table",
-                "values": []
-            },
+            }
         ],
-
         "scales": [
             {
                 "name": "x",
@@ -49,28 +46,27 @@ export default function Chart(props) {
                 "domain": { "data": "table", "field": "c" }
             }
         ],
-
         "axes": [
-            { "orient": "bottom", "scale": "x" },
-            { "orient": "left", "scale": "y" }
+            {
+                "orient": "bottom",
+                "scale": "x",
+                "title": "Year"
+            },
+            {
+                "orient": "left",
+                "scale": "y",
+                "title": "Amount"
+            }
         ],
-
         "marks": [
             {
                 "type": "group",
                 "width": 30,
-                "from": {
-                    "facet": {
-                        "name": "series",
-                        "data": "table",
-                        "groupby": "c"
-                    }
-                },
+                "from": { "facet": { "name": "series", "data": "table", "groupby": "c" } },
                 "marks": [
                     {
                         "type": "line",
                         "from": { "data": "series" },
-                        // "width": 30,
                         "height": 30,
                         "encode": {
                             "enter": {
@@ -78,26 +74,23 @@ export default function Chart(props) {
                                 "y": { "scale": "y", "field": "y" },
                                 "stroke": { "scale": "color", "field": "c" },
                                 "strokeWidth": { "value": 2 },
-                                // "tooltip": { "field": "x", "field": "y" }
                                 "tooltip": { "signal": "datum" }
-                            },
-
+                            }
                         },
                         "update": {
                             "fillOpacity": { "value": 1 },
                             "tooltip": { "signal": "datum" }
-
                         },
                         "hover": {
                             "fillOpacity": { "value": 6.5 },
                             "tooltip": { "signal": "datum" }
                         }
-                    },
+                    }
                 ]
             }
-        ]
+        ],
+        "config": {}
     }
-
     const [spec, setSpec] = React.useState(lineSpec)
 
     React.useEffect(() => {

@@ -91,9 +91,10 @@ const Dashboard = (props) => {
         let lineData = {
             table: []
         }
+        let currentYear = new Date().getFullYear()
         for (let step = 0; step < y.length; step++) {
             lineData.table.push({
-                'x': step,
+                'x': step + currentYear,
                 'y': y[step],
                 'c': 0
             })
@@ -164,6 +165,7 @@ const Dashboard = (props) => {
             )
         )
     )
+
 
     const handleChange = name => event => {
         setValues({
